@@ -1,4 +1,10 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateTagDto } from './create-tag.dto';
+/*
+ * @Author: Carlos
+ * @Date: 2023-01-16 22:00:58
+ * @LastEditTime: 2023-01-17 01:38:47
+ * @FilePath: /nest-portal/src/blog/tag/dto/update-tag.dto.ts
+ * @Description:
+ */
+import { CreateTagDto } from './create-tag.dto'
 
-export class UpdateTagDto extends PartialType(CreateTagDto) {}
+export type UpdateTagDto = Partial<CreateTagDto>
