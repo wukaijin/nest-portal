@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-01-17 02:04:08
+ * @LastEditTime: 2023-01-17 17:31:02
  * @FilePath: /nest-portal/src/blog/tag/tag.controller.ts
  * @Description:
  */
@@ -28,16 +28,16 @@ export class TagController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tagService.findOne(+id)
+    return this.tagService.findOne(id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
-    return this.tagService.update(+id, updateTagDto)
+    return this.tagService.update(id, updateTagDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tagService.remove(+id)
+    return this.tagService.remove(id)
   }
 }

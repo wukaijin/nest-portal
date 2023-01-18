@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-01-17 02:05:12
+ * @LastEditTime: 2023-01-17 16:43:17
  * @FilePath: /nest-portal/src/blog/tag/entities/tag.entity.ts
  * @Description:
  */
@@ -10,8 +10,9 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 @Entity()
 export class Tag {
+  @ApiProperty({ name: 'id', description: 'ID', required: true })
   @PrimaryGeneratedColumn('uuid')
-  id: number
+  id: string
 
   @ApiProperty({ name: 'text', description: '文本', required: true })
   @Column({ type: 'varchar', length: 255 })

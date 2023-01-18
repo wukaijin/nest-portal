@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-01-17 02:18:33
+ * @LastEditTime: 2023-01-17 14:29:42
  * @FilePath: /nest-portal/src/blog/tag/tag.service.ts
  * @Description:
  */
@@ -24,15 +24,15 @@ export class TagService {
     return this.tagRepo.find({ order: { updateAt: 'DESC' } })
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.tagRepo.findOne({ where: { id } })
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
+  update(id: string, updateTagDto: UpdateTagDto) {
     return this.tagRepo.update(id, updateTagDto)
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.tagRepo.delete(id)
   }
 }

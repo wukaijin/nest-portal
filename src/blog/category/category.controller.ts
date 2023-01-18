@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 21:57:26
- * @LastEditTime: 2023-01-16 22:20:49
+ * @LastEditTime: 2023-01-17 17:31:16
  * @FilePath: /nest-portal/src/blog/category/category.controller.ts
  * @Description:
  */
@@ -28,16 +28,16 @@ export class CategoryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(+id)
+    return this.categoryService.findOne(id)
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryService.update(+id, updateCategoryDto)
+    return this.categoryService.update(id, updateCategoryDto)
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.categoryService.remove(+id)
+    return this.categoryService.remove(id)
   }
 }

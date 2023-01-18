@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 14:49:16
- * @LastEditTime: 2023-01-16 23:15:45
+ * @LastEditTime: 2023-01-17 13:04:53
  * @FilePath: /nest-portal/src/main.ts
  * @Description:
  */
@@ -17,11 +17,11 @@ async function bootstrap() {
     .setVersion('1.0')
     .build()
   const app = await NestFactory.create(AppModule)
+  app.setGlobalPrefix('nest-api')
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('swagger', app, document)
 
   app.useGlobalInterceptors(new WrapperInterceptor())
-
-  await app.listen(3000)
+  await app.listen(3001)
 }
 bootstrap()
