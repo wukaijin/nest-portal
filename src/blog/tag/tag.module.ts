@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-01-17 13:31:15
+ * @LastEditTime: 2023-01-20 13:57:09
  * @FilePath: /nest-portal/src/blog/tag/tag.module.ts
  * @Description:
  */
@@ -14,6 +14,7 @@ import { Tag } from './entities/tag.entity'
 @Module({
   imports: [TypeOrmModule.forFeature([Tag])],
   controllers: [TagController],
-  providers: [TagService]
+  providers: [TagService],
+  exports: []
 })
 export class TagModule {}

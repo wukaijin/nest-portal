@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 21:57:26
- * @LastEditTime: 2023-01-17 23:05:30
+ * @LastEditTime: 2023-01-20 12:49:50
  * @FilePath: /nest-portal/src/blog/category/entities/category.entity.ts
  * @Description:
  */
@@ -12,8 +12,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
-  JoinColumn
+  JoinColumn,
+  ManyToOne
 } from 'typeorm'
 
 @Entity()
@@ -26,13 +26,21 @@ export class Category {
   @Column({ type: 'varchar', length: 255 })
   text: string
 
+  @ApiProperty({ name: 'order', description: '排序号' })
+  @Column({ type: 'int' })
+  order: number
+
   @ApiProperty({ name: 'defaultPoster', description: '默认封面' })
   @Column({ type: 'varchar', length: 255 })
   defaultPoster: string
 
+  @ApiProperty({ name: 'description', description: '描述' })
+  @Column({ type: 'varchar', length: 1000 })
+  description: string
+
   @ApiProperty({ name: 'belongs', description: '属于' })
   // @Column({ type: 'varchar', length: 255, nullable: true })
-  @OneToOne(() => Category)
+  @ManyToOne(() => Category)
   @JoinColumn({ name: 'belongs', referencedColumnName: 'id' })
   belongs: string
 

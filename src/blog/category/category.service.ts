@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 21:57:26
- * @LastEditTime: 2023-01-17 23:49:04
+ * @LastEditTime: 2023-01-20 13:14:25
  * @FilePath: /nest-portal/src/blog/category/category.service.ts
  * @Description:
  */
@@ -20,18 +20,17 @@ export class CategoryService {
   }
 
   async findAll() {
-    const result = await this.categoryRepo.find({
-      order: { updateAt: 'DESC' },
+    return this.categoryRepo.find({
+      order: {
+        order: 'DESC',
+        updateAt: 'DESC'
+      },
       relations: ['belongs']
     })
-    return result.map(c => ({
-      ...c,
-      belongs: c.belongs ? (c.belongs as unknown as Category).id : null
-    }))
   }
 
   findOne(id: string) {
-    return this.categoryRepo.findOne({ where: { id } })
+    return this.categoryRepo.findOne({ where: { id }, relations: ['belongs'] })
   }
 
   update(id: string, updateCategoryDto: UpdateCategoryDto) {

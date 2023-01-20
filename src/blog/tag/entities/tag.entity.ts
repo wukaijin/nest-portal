@@ -1,12 +1,20 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-01-17 16:43:17
+ * @LastEditTime: 2023-01-20 12:50:35
  * @FilePath: /nest-portal/src/blog/tag/entities/tag.entity.ts
  * @Description:
  */
 import { ApiProperty } from '@nestjs/swagger'
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Article } from 'src/blog/article/entities/article.entity'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToMany
+} from 'typeorm'
 
 @Entity()
 export class Tag {
@@ -21,6 +29,10 @@ export class Tag {
   @ApiProperty({ name: 'color', description: '颜色', required: true })
   @Column({ type: 'char', length: 7 })
   color: string
+
+  @ApiProperty({ name: 'articles', description: '文章' })
+  @ManyToMany(() => Article, (a: Article) => a.tags)
+  articles: Article[]
 
   @CreateDateColumn({ type: 'timestamp' })
   createAt: Date
