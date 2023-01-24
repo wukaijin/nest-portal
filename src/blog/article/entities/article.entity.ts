@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-01-20 15:11:58
+ * @LastEditTime: 2023-01-20 16:17:36
  * @FilePath: /nest-portal/src/blog/article/entities/article.entity.ts
  * @Description:
  */
@@ -49,7 +49,7 @@ export class Article {
 
   @ApiProperty({ name: 'category', description: '分类', required: true })
   @ManyToOne(() => Category, c => c.id)
-  category: string
+  category: Category
 
   @ApiProperty({ name: 'content', description: '内容', required: true })
   @Column({ type: 'longtext' })

@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-01-20 13:05:01
+ * @LastEditTime: 2023-01-24 16:06:35
  * @FilePath: /nest-portal/src/blog/article/article.controller.ts
  * @Description:
  */
@@ -24,9 +24,24 @@ export class ArticleController {
     return this.articleService.findAll()
   }
 
+  @Get('search/:keyword')
+  search(@Param('keyword') keyword: string) {
+    return this.articleService.search(keyword)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.articleService.findOne(id)
+  }
+
+  @Get('relative/:id')
+  findRelativeById(@Param('id') id: string) {
+    return this.articleService.findRelativeById(id)
+  }
+
+  @Get('findByCategoryId/:id')
+  findByCategoryId(@Param('id') id: string) {
+    return this.articleService.findByCategoryId(id)
   }
 
   @Patch(':id')
