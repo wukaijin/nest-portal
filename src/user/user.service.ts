@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-02-01 15:40:28
- * @LastEditTime: 2023-02-02 13:40:22
+ * @LastEditTime: 2023-02-02 15:50:01
  * @FilePath: /nest-portal/src/user/user.service.ts
  * @Description: null
  */
@@ -23,7 +23,7 @@ export class UserService {
     {
       id: '1',
       name: 'carlos',
-      password: '123456',
+      password: process.env.PASSWORD || '123456',
       roles: [Role.Admin]
     },
     {
