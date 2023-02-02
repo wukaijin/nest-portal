@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-02-01 15:40:28
- * @LastEditTime: 2023-02-02 15:50:01
+ * @LastEditTime: 2023-02-02 23:04:42
  * @FilePath: /nest-portal/src/user/user.service.ts
  * @Description: null
  */
@@ -38,8 +38,10 @@ export class UserService {
     return this.User.find(user => user.name === name)
   }
   async login(user: User) {
-    const payload = { name: user.name, id: user.id, roles: user.roles }
+    const targetEntity = await this.findOne(user.name)
+    const payload = { name: targetEntity.name, id: targetEntity.id, roles: targetEntity.roles }
     return {
+      ...payload,
       token: this.jwtService.sign(payload)
     }
   }

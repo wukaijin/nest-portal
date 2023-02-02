@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-02-01 21:49:55
- * @LastEditTime: 2023-02-02 13:47:16
+ * @LastEditTime: 2023-02-02 23:10:45
  * @FilePath: /nest-portal/src/auth/jwt.strategy.ts
  * @Description: null
  */
@@ -21,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return { id: payload.id, name: payload.name }
+    // return { id: payload.id, name: payload.name, roles: payload.roles }
+    return payload
   }
 }

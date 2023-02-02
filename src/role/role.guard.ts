@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-02-02 13:36:37
- * @LastEditTime: 2023-02-02 13:36:53
+ * @LastEditTime: 2023-02-02 23:11:00
  * @FilePath: /nest-portal/src/role/role.guard.ts
  * @Description: null
  */
