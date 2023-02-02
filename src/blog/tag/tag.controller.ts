@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-01-17 17:31:02
+ * @LastEditTime: 2023-02-02 14:16:52
  * @FilePath: /nest-portal/src/blog/tag/tag.controller.ts
  * @Description:
  */
@@ -10,6 +10,8 @@ import { TagService } from './tag.service'
 import { CreateTagDto } from './dto/create-tag.dto'
 import { UpdateTagDto } from './dto/update-tag.dto'
 import { ApiTags } from '@nestjs/swagger'
+import { Roles } from 'src/role/role.decorator'
+import { Role } from 'src/role/role.enum'
 
 @Controller('tag')
 @ApiTags('tag')
@@ -17,6 +19,7 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @Post()
+  @Roles(Role.Admin)
   create(@Body() createTagDto: CreateTagDto) {
     return this.tagService.create(createTagDto)
   }
@@ -32,11 +35,13 @@ export class TagController {
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
   update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
     return this.tagService.update(id, updateTagDto)
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
   remove(@Param('id') id: string) {
     return this.tagService.remove(id)
   }

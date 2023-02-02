@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 14:49:16
- * @LastEditTime: 2023-02-01 23:19:16
+ * @LastEditTime: 2023-02-02 13:37:31
  * @FilePath: /nest-portal/src/app.module.ts
  * @Description:
  */
@@ -16,6 +16,7 @@ import { ArticleModule } from './blog/article/article.module'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './User/User.module'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
+import { RolesGuard } from './role/role.guard'
 
 @Module({
   imports: [
@@ -46,6 +47,10 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard'
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard
     }
   ]
 })

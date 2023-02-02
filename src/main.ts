@@ -1,13 +1,14 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 14:49:16
- * @LastEditTime: 2023-01-17 13:04:53
+ * @LastEditTime: 2023-02-02 14:11:22
  * @FilePath: /nest-portal/src/main.ts
  * @Description:
  */
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
+import { HttpExceptionFilter } from './http-exception.filter'
 import { WrapperInterceptor } from './wrapper/wrapper.interceptor'
 
 async function bootstrap() {
@@ -22,6 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document)
 
   app.useGlobalInterceptors(new WrapperInterceptor())
+  app.useGlobalFilters(new HttpExceptionFilter())
   await app.listen(3001)
 }
 bootstrap()
