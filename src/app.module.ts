@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 14:49:16
- * @LastEditTime: 2023-01-20 00:44:02
+ * @LastEditTime: 2023-02-01 23:19:16
  * @FilePath: /nest-portal/src/app.module.ts
  * @Description:
  */
@@ -11,8 +11,11 @@ import { AppService } from './app.service'
 import { CategoryModule } from './blog/category/category.module'
 import { TagModule } from './blog/tag/tag.module'
 import DatabaseModule from './typeorm/typeorm.module'
-import { RouterModule } from '@nestjs/core'
+import { APP_GUARD, RouterModule } from '@nestjs/core'
 import { ArticleModule } from './blog/article/article.module'
+import { AuthModule } from './auth/auth.module'
+import { UserModule } from './User/User.module'
+import { JwtAuthGuard } from './auth/jwt-auth.guard'
 
 @Module({
   imports: [
@@ -33,9 +36,17 @@ import { ArticleModule } from './blog/article/article.module'
         module: ArticleModule
       }
     ]),
-    ArticleModule
+    ArticleModule,
+    AuthModule,
+    UserModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard
+    }
+  ]
 })
 export class AppModule {}
