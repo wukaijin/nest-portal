@@ -1,11 +1,12 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-02-02 14:15:56
+ * @LastEditTime: 2023-02-02 15:25:12
  * @FilePath: /nest-portal/src/blog/article/article.controller.ts
  * @Description:
  */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Public } from 'src/auth/jwt-auth.guard'
 import { Roles } from 'src/role/role.decorator'
 import { Role } from 'src/role/role.enum'
 import { ArticleService } from './article.service'
@@ -23,26 +24,31 @@ export class ArticleController {
   }
 
   @Get()
+  @Public()
   findAll() {
     return this.articleService.findAll()
   }
 
   @Get('search/:keyword')
+  @Public()
   search(@Param('keyword') keyword: string) {
     return this.articleService.search(keyword)
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.articleService.findOne(id)
   }
 
   @Get('relative/:id')
+  @Public()
   findRelativeById(@Param('id') id: string) {
     return this.articleService.findRelativeById(id)
   }
 
   @Get('findByCategoryId/:id')
+  @Public()
   findByCategoryId(@Param('id') id: string) {
     return this.articleService.findByCategoryId(id)
   }

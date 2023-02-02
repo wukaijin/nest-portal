@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 22:00:58
- * @LastEditTime: 2023-02-02 14:16:52
+ * @LastEditTime: 2023-02-02 15:24:41
  * @FilePath: /nest-portal/src/blog/tag/tag.controller.ts
  * @Description:
  */
@@ -12,6 +12,7 @@ import { UpdateTagDto } from './dto/update-tag.dto'
 import { ApiTags } from '@nestjs/swagger'
 import { Roles } from 'src/role/role.decorator'
 import { Role } from 'src/role/role.enum'
+import { Public } from 'src/auth/jwt-auth.guard'
 
 @Controller('tag')
 @ApiTags('tag')
@@ -25,11 +26,13 @@ export class TagController {
   }
 
   @Get()
+  @Public()
   findAll() {
     return this.tagService.findAll()
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.tagService.findOne(id)
   }
