@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 14:49:16
- * @LastEditTime: 2023-02-02 13:37:31
+ * @LastEditTime: 2023-02-02 15:03:21
  * @FilePath: /nest-portal/src/app.module.ts
  * @Description:
  */
@@ -14,7 +14,7 @@ import DatabaseModule from './typeorm/typeorm.module'
 import { APP_GUARD, RouterModule } from '@nestjs/core'
 import { ArticleModule } from './blog/article/article.module'
 import { AuthModule } from './auth/auth.module'
-import { UserModule } from './User/User.module'
+import { UserModule } from './user/user.module'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
 import { RolesGuard } from './role/role.guard'
 
