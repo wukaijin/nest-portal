@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 21:57:26
- * @LastEditTime: 2023-01-20 12:49:50
+ * @LastEditTime: 2023-02-03 22:51:55
  * @FilePath: /nest-portal/src/blog/category/entities/category.entity.ts
  * @Description:
  */

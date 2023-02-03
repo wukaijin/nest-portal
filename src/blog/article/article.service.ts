@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-02-03 14:33:55
+ * @LastEditTime: 2023-02-03 14:44:39
  * @FilePath: /nest-portal/src/blog/article/article.service.ts
  * @Description:
  */
@@ -36,29 +36,22 @@ export class ArticleService {
   }
 
   findAll(query: ArticleQuery) {
-    // return this.articleRepo.find({
-    //   order: {
-    //     updateAt: 'DESC'
-    //   },
-    //   relations: ['category', 'tags'],
-    //   select: LIST_KEYS
-    // })
-    const cates = this.articleRepo
+    const articlesQB = this.articleRepo
       .createQueryBuilder('article')
       .select(['id', 'state', 'title', 'description'].map(key => `article.${key}`))
       .leftJoinAndSelect('article.category', 'category')
       .leftJoinAndSelect('article.tags', 'tag')
     if (query.title) {
-      cates.where('article.title like :title', { title: '%' + query.title + '%' })
+      articlesQB.where('article.title like :title', { title: '%' + query.title + '%' })
     }
     if (query.category) {
-      cates.andWhere('article.category = :category', { category: query.category })
+      articlesQB.andWhere('article.category = :category', { category: query.category })
     }
     if (query.tags && query.tags.length) {
-      cates.andWhere('tag.id in (:...tagIds)', { tagIds: query.tags })
+      articlesQB.andWhere('tag.id in (:...tagIds)', { tagIds: query.tags })
     }
 
-    return cates.getMany()
+    return articlesQB.orderBy('article.createAt', 'DESC').getMany()
   }
 
   search(keyword: string) {

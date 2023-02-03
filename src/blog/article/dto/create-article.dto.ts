@@ -1,16 +1,13 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-01-20 03:32:02
+ * @LastEditTime: 2023-02-03 16:29:06
  * @FilePath: /nest-portal/src/blog/article/dto/create-article.dto.ts
  * @Description:
  */
 import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateArticleDto {
-  @ApiProperty({ name: 'id', description: 'ID', required: true })
-  id: string
-
   @ApiProperty({ name: 'text', description: '标题', required: true })
   title: string
 
