@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-01-24 16:43:05
+ * @LastEditTime: 2023-02-03 11:26:01
  * @FilePath: /nest-portal/src/blog/article/article.service.ts
  * @Description:
  */
@@ -11,6 +11,7 @@ import { Like, Repository } from 'typeorm'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { Article } from './entities/article.entity'
+import { ArticleQuery } from './types'
 
 const LIST_KEYS: (keyof Article)[] = [
   'id',
@@ -34,14 +35,30 @@ export class ArticleService {
     })
   }
 
-  findAll() {
-    return this.articleRepo.find({
-      order: {
-        updateAt: 'DESC'
-      },
-      relations: ['category', 'tags'],
-      select: LIST_KEYS
-    })
+  findAll(query: ArticleQuery) {
+    // return this.articleRepo.find({
+    //   order: {
+    //     updateAt: 'DESC'
+    //   },
+    //   relations: ['category', 'tags'],
+    //   select: LIST_KEYS
+    // })
+    const cates = this.articleRepo
+      .createQueryBuilder('article')
+      .select(['id', 'state', 'title'].map(key => `article.${key}`))
+      .leftJoinAndSelect('article.category', 'category')
+      .leftJoinAndSelect('article.tags', 'tag')
+    if (query.title) {
+      cates.where('article.title like :title', { title: '%' + query.title + '%' })
+    }
+    if (query.category) {
+      cates.andWhere('article.category = :category', { category: query.category })
+    }
+    if (query.tags && query.tags.length) {
+      cates.andWhere('tag.id in (:...tagIds)', { tagIds: query.tags })
+    }
+
+    return cates.getMany()
   }
 
   search(keyword: string) {

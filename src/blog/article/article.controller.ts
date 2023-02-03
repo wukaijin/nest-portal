@@ -1,17 +1,18 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-02-02 15:25:12
+ * @LastEditTime: 2023-02-03 11:06:09
  * @FilePath: /nest-portal/src/blog/article/article.controller.ts
  * @Description:
  */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
 import { Public } from 'src/auth/jwt-auth.guard'
 import { Roles } from 'src/role/role.decorator'
 import { Role } from 'src/role/role.enum'
 import { ArticleService } from './article.service'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
+import { ArticleQuery } from './types'
 
 @Controller('article')
 export class ArticleController {
@@ -25,8 +26,8 @@ export class ArticleController {
 
   @Get()
   @Public()
-  findAll() {
-    return this.articleService.findAll()
+  findAll(@Query() query: ArticleQuery) {
+    return this.articleService.findAll(query)
   }
 
   @Get('search/:keyword')
