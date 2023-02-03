@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-02-03 11:26:01
+ * @LastEditTime: 2023-02-03 14:29:29
  * @FilePath: /nest-portal/src/blog/article/article.service.ts
  * @Description:
  */
@@ -99,7 +99,7 @@ export class ArticleService {
     const target = await this.findOne(id)
     const cates = await this.articleRepo
       .createQueryBuilder('article')
-      .select(['id', 'state', 'title'].map(key => `article.${key}`))
+      .select(['id', 'state', 'title, description'].map(key => `article.${key}`))
       .leftJoin('article.category', 'category')
       .leftJoin('article.tags', 'tag')
       .where('article.category = :category', { category: target.category.id })
