@@ -1,13 +1,14 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-02-03 14:44:39
+ * @LastEditTime: 2023-02-06 22:21:16
  * @FilePath: /nest-portal/src/blog/article/article.service.ts
  * @Description:
  */
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Like, Repository } from 'typeorm'
+import { Tag } from '../tag/entities/tag.entity'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { Article } from './entities/article.entity'
@@ -90,16 +91,23 @@ export class ArticleService {
   }
   async findRelativeById(id: string) {
     const target = await this.findOne(id)
-    const cates = await this.articleRepo
+    const getTagIds = (tags: Tag[]) =>
+      (tags || [])
+        .map(tag => tag.id)
+        .sort()
+        .join(',')
+
+    const targetTagIds = getTagIds(target.tags)
+    const related = await this.articleRepo
       .createQueryBuilder('article')
       .select(['id', 'state', 'title'].map(key => `article.${key}`))
       .leftJoin('article.category', 'category')
-      .leftJoin('article.tags', 'tag')
+      // .leftJoin('article.tags', 'tag')
+      .leftJoinAndSelect('article.tags', 'tag')
       .where('article.category = :category', { category: target.category.id })
       .andWhere('article.id != :articleId', { articleId: target.id })
-      .andWhere('tag.id in (:...tagIds)', { tagIds: target.tags.map(t => t.id) })
       .getMany()
-    return cates
+    return related.filter(r => getTagIds(r.tags) === targetTagIds)
   }
   async update(id: string, updateArticleDto: UpdateArticleDto) {
     const tagsIds = updateArticleDto.tags
