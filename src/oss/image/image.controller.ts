@@ -1,4 +1,4 @@
-import { Controller, Get} from '@nestjs/common'
+import { Controller, Get, Query } from '@nestjs/common'
 import { Public } from 'src/auth/jwt-auth.guard'
 import { ImageService } from './image.service'
 
@@ -12,5 +12,10 @@ export class ImageController {
   @Public()
   getFolders() {
     return this.imageService.getFolders()
+  }
+  @Get('get')
+  @Public()
+  getImages(@Query() query: { path: string}) {
+    return this.imageService.getImages(query.path)
   }
 }
