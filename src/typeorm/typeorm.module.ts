@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-17 00:48:31
- * @LastEditTime: 2023-04-28 20:04:13
+ * @LastEditTime: 2023-05-01 22:17:03
  * @FilePath: /nest-portal/src/typeorm/typeorm.module.ts
  * @Description:
  */
@@ -14,9 +14,8 @@ console.log('path:', entitiesPath)
 export default TypeOrmModule.forRoot({
   type: 'mysql',
   username: process.env.DB_USERNAME || 'root',
-  password: process.env.DB_PASSWORD || 'carlos123456',
-  // host: 'localhost',
-  host: '106.55.147.116',
+  password: process.env.DB_PASSWORD || '123456',
+  host: 'localhost',
   port: 3306,
   database: 'portal',
   // entities: [entitiesPath],
