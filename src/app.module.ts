@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-16 14:49:16
- * @LastEditTime: 2023-04-28 20:34:38
+ * @LastEditTime: 2023-05-03 15:23:08
  * @FilePath: /nest-portal/src/app.module.ts
  * @Description:
  */
@@ -18,12 +18,14 @@ import { UserModule } from './user/user.module'
 import { ImageModule } from './oss/image/image.module'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
 import { RolesGuard } from './role/role.guard'
+import { FolderModule } from './oss/folder/folder.module'
 
 @Module({
   imports: [
     DatabaseModule,
     CategoryModule,
     TagModule,
+    ArticleModule,
     RouterModule.register([
       {
         path: 'blog',
@@ -38,10 +40,10 @@ import { RolesGuard } from './role/role.guard'
         module: ArticleModule
       }
     ]),
-    ArticleModule,
     AuthModule,
     UserModule,
-    ImageModule
+    ImageModule,
+    FolderModule
   ],
   controllers: [AppController],
   providers: [

@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-04-28 20:25:53
- * @LastEditTime: 2023-05-01 21:36:56
+ * @LastEditTime: 2023-05-03 15:14:33
  * @FilePath: /nest-portal/src/oss/image/image.controller.ts
  * @Description: null
  */
@@ -25,21 +25,6 @@ import { ImageService } from './image.service'
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
-  @Get('folders')
-  getFolders() {
-    return this.imageService.getFolders()
-  }
-
-  @Put('folder')
-  addFolder(@Body('path') path: string) {
-    return this.imageService.addFolder(path)
-  }
-
-  @Delete('folder')
-  deleteFolder(@Body('path') path: string) {
-    return this.imageService.deleteFolder(path)
-  }
-
   @Get('get')
   @Public()
   getImages(@Query() query: { path: string }) {
@@ -48,7 +33,10 @@ export class ImageController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file)
+  uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: { name?: string; path?: string }
+  ) {
+    return this.imageService.uploadImage(file, body)
   }
 }
