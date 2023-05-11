@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-05-03 15:03:23
- * @LastEditTime: 2023-05-03 15:14:04
+ * @LastEditTime: 2023-05-03 20:54:51
  * @FilePath: /nest-portal/src/oss/folder/folder.service.ts
  * @Description: null
  */
@@ -58,6 +58,16 @@ async function removeFolder(base: string, cPath: string) {
   }
 }
 
+async function renameFolder(base: string, cPath: string, name: string) {
+  try {
+    await fsp.access(path.resolve(base, cPath))
+    await fsp.rename(path.resolve(base, cPath), path.resolve(base, cPath, '..', name))
+  } catch (error) {
+    if (error.code === 'ENOTEMPTY') {
+      throw new HttpException({ message: 'NOT EXIST' }, HttpStatus.BAD_REQUEST)
+    }
+  }
+}
 @Injectable()
 export class FolderService {
   create(createFolderDto: CreateFolderDto) {
@@ -71,6 +81,11 @@ export class FolderService {
   addFolder(path: string) {
     if (!path) return null
     return addFolder(OSS_DIR, path)
+  }
+
+  renameFolder(path: string, name: string) {
+    if (!path) return null
+    return renameFolder(OSS_DIR, path, name)
   }
 
   deleteFolder(path: string) {
