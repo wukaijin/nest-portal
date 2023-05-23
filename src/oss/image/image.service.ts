@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-04-28 20:25:41
- * @LastEditTime: 2023-05-03 15:13:28
+ * @LastEditTime: 2023-05-23 16:23:07
  * @FilePath: /nest-portal/src/oss/image/image.service.ts
  * @Description: null
  */
@@ -14,7 +14,7 @@ const fsp = fs.promises
 const dir = path.resolve(__dirname, '../../../src')
 const OSS_DIR = process.env.OSS_DIR || dir
 
-const isImage = (fileName: string) => /\.(je?pg|png|svg|webp|gif)$/.test(fileName)
+const isImage = (fileName: string) => /\.(jpe?g|png|svg|webp|gif)$/.test(fileName)
 
 async function findImages(base: string, cPath: string) {
   const docs = []
