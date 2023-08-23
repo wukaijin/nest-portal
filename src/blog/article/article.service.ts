@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-08-23 10:33:43
+ * @LastEditTime: 2023-08-23 12:03:38
  * @FilePath: /nest-portal/src/blog/article/article.service.ts
  * @Description:
  */
@@ -94,13 +94,17 @@ export class ArticleService {
       .leftJoinAndSelect('article.tags', 'tags')
       .where({ id })
       .getOne()
-    if (!record.filePath) return record
+    if (!record.filePath) {
+      return record
+    }
     const fileContent = await this.getContentByFilePath(record.filePath)
     if (fileContent) {
       return {
         ...record,
         content: fileContent
       }
+    } else {
+      return record
     }
   }
   async findRelativeById(id: string) {
@@ -138,11 +142,15 @@ export class ArticleService {
 
   async getContentByFilePath(cPath: string) {
     const fullPath = path.resolve(OSS_DIR, cPath)
-    const stat = await fsp.stat(fullPath)
-    if (stat) {
-      const content = await fsp.readFile(fullPath)
-      return content
-    } else {
+    try {
+      const stat = await fsp.stat(fullPath)
+      if (stat && stat.isFile()) {
+        const content = await fsp.readFile(fullPath)
+        return content.toString()
+      } else {
+        return null
+      }
+    } catch (error) {
       return null
     }
   }
