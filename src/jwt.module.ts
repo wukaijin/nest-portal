@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-02-01 17:49:15
- * @LastEditTime: 2023-02-02 13:46:49
+ * @LastEditTime: 2023-08-23 10:34:58
  * @FilePath: /nest-portal/src/jwt.module.ts
  * @Description: null
  */
@@ -10,5 +10,5 @@ import { JwtModule } from '@nestjs/jwt'
 
 export const jwtModule = JwtModule.register({
   secret: jwtConstants.secret,
-  signOptions: { expiresIn: '600s' }
+  signOptions: { expiresIn: '1h' }
 })
