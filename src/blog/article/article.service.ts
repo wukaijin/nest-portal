@@ -1,10 +1,12 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-08-22 23:34:11
+ * @LastEditTime: 2023-08-23 10:33:43
  * @FilePath: /nest-portal/src/blog/article/article.service.ts
  * @Description:
  */
+import * as fs from 'fs'
+import * as path from 'path'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Like, Repository } from 'typeorm'
@@ -13,6 +15,10 @@ import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { Article } from './entities/article.entity'
 import { ArticleQuery } from './types'
+
+const fsp = fs.promises
+const dir = path.resolve(__dirname, '../../../src')
+const OSS_DIR = process.env.OSS_DIR || dir
 
 const LIST_KEYS: (keyof Article)[] = [
   'id',
@@ -79,8 +85,8 @@ export class ArticleService {
       select: LIST_KEYS
     })
   }
-  findOne(id: string) {
-    return this.articleRepo
+  async findOne(id: string) {
+    const record = await this.articleRepo
       .createQueryBuilder('article')
       .select('article')
       .leftJoinAndSelect('article.category', 'category')
@@ -88,6 +94,14 @@ export class ArticleService {
       .leftJoinAndSelect('article.tags', 'tags')
       .where({ id })
       .getOne()
+    if (!record.filePath) return record
+    const fileContent = await this.getContentByFilePath(record.filePath)
+    if (fileContent) {
+      return {
+        ...record,
+        content: fileContent
+      }
+    }
   }
   async findRelativeById(id: string) {
     const target = await this.findOne(id)
@@ -120,5 +134,16 @@ export class ArticleService {
 
   remove(id: string) {
     return this.articleRepo.delete(id)
+  }
+
+  async getContentByFilePath(cPath: string) {
+    const fullPath = path.resolve(OSS_DIR, cPath)
+    const stat = await fsp.stat(fullPath)
+    if (stat) {
+      const content = await fsp.readFile(fullPath)
+      return content
+    } else {
+      return null
+    }
   }
 }

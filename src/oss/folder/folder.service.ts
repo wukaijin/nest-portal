@@ -1,13 +1,12 @@
 /*
  * @Author: Carlos
  * @Date: 2023-05-03 15:03:23
- * @LastEditTime: 2023-05-03 20:54:51
+ * @LastEditTime: 2023-08-23 10:22:37
  * @FilePath: /nest-portal/src/oss/folder/folder.service.ts
  * @Description: null
  */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
-import { CreateFolderDto } from './dto/create-folder.dto'
-import { UpdateFolderDto } from './dto/update-folder.dto'
+
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -70,10 +69,6 @@ async function renameFolder(base: string, cPath: string, name: string) {
 }
 @Injectable()
 export class FolderService {
-  create(createFolderDto: CreateFolderDto) {
-    return 'This action adds a new folder'
-  }
-
   getDirectory() {
     return generateFolderTree(OSS_DIR, '')
   }
@@ -91,17 +86,5 @@ export class FolderService {
   deleteFolder(path: string) {
     if (!path) return null
     return removeFolder(OSS_DIR, path)
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} folder`
-  }
-
-  update(id: number, updateFolderDto: UpdateFolderDto) {
-    return `This action updates a #${id} folder`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} folder`
   }
 }

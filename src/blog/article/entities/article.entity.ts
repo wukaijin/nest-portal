@@ -1,7 +1,7 @@
 /*
  * @Author: Carlos
  * @Date: 2023-01-20 00:43:37
- * @LastEditTime: 2023-01-20 16:17:36
+ * @LastEditTime: 2023-08-23 10:12:28
  * @FilePath: /nest-portal/src/blog/article/entities/article.entity.ts
  * @Description:
  */
@@ -54,6 +54,10 @@ export class Article {
   @ApiProperty({ name: 'content', description: '内容', required: true })
   @Column({ type: 'longtext' })
   content: string
+
+  @ApiProperty({ name: 'content', description: 'md 文件路径', required: false })
+  @Column({ type: 'longtext' })
+  filePath?: string
 
   @ApiProperty({ name: 'state', description: '状态 [0/1]', required: true })
   @Column({ type: 'int', default: 0 })
