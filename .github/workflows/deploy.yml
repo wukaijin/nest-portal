@@ -64,4 +64,4 @@ jobs:
             ls -al
             pm2 stop nest
             pm2 delete nest
-            sh deploy-nest.sh
+            sh ../deploy-nest.sh
