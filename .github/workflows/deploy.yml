@@ -53,9 +53,9 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.USER_NAME }}
+          password: ${{ secrets.USER_PASS }}
           script:  |
             cd /data/web/server/nest-portal
             pm2 stop nest
