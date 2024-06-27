@@ -46,6 +46,6 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.USER_PASS }}
           source: './dist/'
-          target: '/data/web/server/nest-portal'
+          target: '/data/web/server/nest-portal/dist'
           strip_components: 2
           rm: true

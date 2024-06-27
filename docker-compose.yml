@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  db:
+    image: mysql
+    container_name: portal-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: carlos123456
+    volumes:
+      - /data/volumes/portal-mysql/log:/var/1og/mysq1 # 映射日志目录，宿主机：容器
+      - /data/volumes/portal-mysql/data:/var/1ib/mysql #映射数据目录，宿主机：容器
+      - /data/volumes/portal-mysql/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机：容器
+      - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，
+    ports:
+      - 3306:3306
+    restart: always # 容器随 docker 启动自启
