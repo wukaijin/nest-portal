@@ -58,6 +58,7 @@ jobs:
           password: ${{ secrets.USER_PASS }}
           script: |
             whoami
+            source ~/.zshrc
             cd /data/web/server/nest-portal
             pwd
             ls -al
