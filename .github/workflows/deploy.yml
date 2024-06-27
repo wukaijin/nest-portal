@@ -4,7 +4,7 @@ on:
   push:
     branches:
       # master 分支，你也可以改成其他分支
-      - master
+      - main
 jobs:
   # 任务ID
   build:
