@@ -58,8 +58,9 @@ jobs:
           password: ${{ secrets.USER_PASS }}
           script: |
             whoami
-            ls
             cd /data/web/server/nest-portal
+            pwd
+            ls -al
             pm2 stop nest
             pm2 delete nest
             sh deploy-nest.sh
