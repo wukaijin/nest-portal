@@ -1,0 +1,8 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file://wsl.localhost/Ubuntu-22.04/usr/local/code/my/nest-portal/.github/workflows/deploy.yml"
+  },
+  "cSpell.words": [
+    "appleboy"
+  ]
+}

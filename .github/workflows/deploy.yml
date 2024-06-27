@@ -1,4 +1,5 @@
 name: Build app and deploy to Tencent
+
 on:
   #监听push操作
   push:
@@ -49,3 +50,14 @@ jobs:
           target: '/data/web/server/nest-portal/dist'
           strip_components: 2
           rm: true
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script:  |
+            cd /data/web/server/nest-portal
+            pm2 stop nest
+            pm2 delete nest
+            sh deploy-nest.sh
