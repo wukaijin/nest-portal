@@ -14,9 +14,9 @@ console.log('path:', entitiesPath)
 export default TypeOrmModule.forRoot({
   type: 'mysql',
   username: process.env.DB_USERNAME || 'root',
-  password: process.env.DB_PASSWORD || 'carlos123456',
-  // host: 'localhost',
-  host: '106.55.147.116',
+  password: process.env.DB_PASSWORD || 'itsUnknown',
+  host: 'localhost',
+  // host: '106.55.147.116',
   port: 3306,
   database: 'portal',
   // entities: [entitiesPath],
