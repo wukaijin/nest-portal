@@ -5,10 +5,10 @@
  * @FilePath: /nest-portal/src/jwt.module.ts
  * @Description: null
  */
-import { jwtConstants } from 'src/constants'
-import { JwtModule } from '@nestjs/jwt'
+import { jwtConstants } from 'src/constants';
+import { JwtModule } from '@nestjs/jwt';
 
 export const jwtModule = JwtModule.register({
   secret: jwtConstants.secret,
-  signOptions: { expiresIn: '1h' }
-})
+  signOptions: { expiresIn: '1h' },
+});

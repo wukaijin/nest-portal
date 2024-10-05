@@ -5,12 +5,13 @@
  * @FilePath: /nest-portal/src/oss/folder/folder.module.ts
  * @Description: null
  */
-import { Module } from '@nestjs/common'
-import { FolderService } from './folder.service'
-import { FolderController } from './folder.controller'
+import { Module } from '@nestjs/common';
+import { ossConstProvider } from '../oss.const';
+import { FolderController } from './folder.controller';
+import { FolderService } from './folder.service';
 
 @Module({
   controllers: [FolderController],
-  providers: [FolderService]
+  providers: [FolderService, ossConstProvider],
 })
 export class FolderModule {}

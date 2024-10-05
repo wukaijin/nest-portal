@@ -5,19 +5,19 @@
  * @FilePath: /nest-portal/src/blog/category/category.service.ts
  * @Description:
  */
-import { Injectable } from '@nestjs/common'
-import { Repository } from 'typeorm'
-import { InjectRepository } from '@nestjs/typeorm'
-import { CreateCategoryDto } from './dto/create-category.dto'
-import { UpdateCategoryDto } from './dto/update-category.dto'
-import { Category } from './entities/category.entity'
-import { Article } from '../article/entities/article.entity'
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
+import { Article } from '../article/entities/article.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(@InjectRepository(Category) private readonly categoryRepo: Repository<Category>) {}
   create(createCategoryDto: CreateCategoryDto) {
-    return this.categoryRepo.save(createCategoryDto)
+    return this.categoryRepo.save(createCategoryDto);
   }
 
   async findAll() {
@@ -39,24 +39,24 @@ export class CategoryService {
       )
       .orderBy({
         'category.order': 'DESC',
-        'category.updateAt': 'DESC'
-      })
-    const result = await catesQB.getMany()
+        'category.updateAt': 'DESC',
+      });
+    const result = await catesQB.getMany();
     return (result || []).map((r: Category & { articles: Article[] }) => ({
       ...r,
-      articles: r.articles?.length
-    }))
+      articles: r.articles?.length,
+    }));
   }
 
   findOne(id: string) {
-    return this.categoryRepo.findOne({ where: { id }, relations: ['belongs'] })
+    return this.categoryRepo.findOne({ where: { id }, relations: ['belongs'] });
   }
 
   update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryRepo.update(id, updateCategoryDto)
+    return this.categoryRepo.update(id, updateCategoryDto);
   }
 
   remove(id: string) {
-    return this.categoryRepo.delete(id)
+    return this.categoryRepo.delete(id);
   }
 }

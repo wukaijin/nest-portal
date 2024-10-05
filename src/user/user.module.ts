@@ -5,15 +5,15 @@
  * @FilePath: /nest-portal/src/user/user.module.ts
  * @Description: null
  */
-import { Module } from '@nestjs/common'
-import { UserService } from './user.service'
-import { UserController } from './user.controller'
-import { jwtModule } from 'src/jwt.module'
+import { Module } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { jwtModule } from 'src/jwt.module';
 
 @Module({
   imports: [jwtModule],
   providers: [UserService],
   exports: [UserService],
-  controllers: [UserController]
+  controllers: [UserController],
 })
 export class UserModule {}

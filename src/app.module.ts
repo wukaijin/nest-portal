@@ -5,20 +5,21 @@
  * @FilePath: /nest-portal/src/app.module.ts
  * @Description:
  */
-import { Module } from '@nestjs/common'
-import { APP_GUARD, RouterModule } from '@nestjs/core'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import DatabaseModule from './typeorm/typeorm.module'
-import { CategoryModule } from './blog/category/category.module'
-import { TagModule } from './blog/tag/tag.module'
-import { ArticleModule } from './blog/article/article.module'
-import { AuthModule } from './auth/auth.module'
-import { UserModule } from './user/user.module'
-import { ImageModule } from './oss/image/image.module'
-import { JwtAuthGuard } from './auth/jwt-auth.guard'
-import { RolesGuard } from './role/role.guard'
-import { FolderModule } from './oss/folder/folder.module'
+import { Module } from '@nestjs/common';
+import { APP_GUARD, RouterModule } from '@nestjs/core';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { ArticleModule } from './blog/article/article.module';
+import { CategoryModule } from './blog/category/category.module';
+import { TagModule } from './blog/tag/tag.module';
+import { FolderModule } from './oss/folder/folder.module';
+import { ImageModule } from './oss/image/image.module';
+import { OssModule } from './oss/oss.module';
+import { RolesGuard } from './role/role.guard';
+import DatabaseModule from './typeorm/typeorm.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -29,33 +30,34 @@ import { FolderModule } from './oss/folder/folder.module'
     RouterModule.register([
       {
         path: 'blog',
-        module: CategoryModule
+        module: CategoryModule,
       },
       {
         path: 'blog',
-        module: TagModule
+        module: TagModule,
       },
       {
         path: 'blog',
-        module: ArticleModule
-      }
+        module: ArticleModule,
+      },
     ]),
     AuthModule,
     UserModule,
     ImageModule,
-    FolderModule
+    FolderModule,
+    OssModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard
+      useClass: JwtAuthGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
-    }
-  ]
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -5,17 +5,17 @@
  * @FilePath: /nest-portal/src/auth/auth.module.ts
  * @Description: null
  */
-import { Module } from '@nestjs/common'
-import { AuthService } from './auth.service'
-import { UserModule } from '../user/user.module'
-import { PassportModule } from '@nestjs/passport'
-import { LocalStrategy } from './local.strategy'
-import { jwtModule } from 'src/jwt.module'
-import { JwtStrategy } from './jwt.strategy'
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { UserModule } from '../user/user.module';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './local.strategy';
+import { jwtModule } from 'src/jwt.module';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [UserModule, PassportModule, jwtModule],
   providers: [AuthService, LocalStrategy, JwtStrategy],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}

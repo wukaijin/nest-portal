@@ -6,7 +6,7 @@
  * @Description: null
  */
 export interface ArticleQuery {
-  title: string
-  category: string
-  tags: string[]
+  title: string;
+  category: string;
+  tags: string[];
 }

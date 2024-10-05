@@ -5,21 +5,21 @@
  * @FilePath: /nest-portal/src/auth/auth.service.ts
  * @Description: null
  */
-import { Injectable } from '@nestjs/common'
-import { UserService } from '../user/user.service'
+import { Injectable } from '@nestjs/common';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(private usersService: UserService) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(username)
+    const user = await this.usersService.findOne(username);
     if (user && user.password === pass) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user
-      console.log('validateUser user', user)
-      return result
+      const { password, ...result } = user;
+      console.log('validateUser user', user);
+      return result;
     }
-    return null
+    return null;
   }
 }

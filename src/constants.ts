@@ -6,5 +6,5 @@
  * @Description: null
  */
 export const jwtConstants = {
-  secret: 'carlos'
-}
+  secret: 'carlos',
+};

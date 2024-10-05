@@ -5,9 +5,9 @@
  * @FilePath: /nest-portal/src/blog/article/entities/article.entity.ts
  * @Description:
  */
-import { ApiProperty } from '@nestjs/swagger'
-import { Category } from 'src/blog/category/entities/category.entity'
-import { Tag } from 'src/blog/tag/entities/tag.entity'
+import { ApiProperty } from '@nestjs/swagger';
+import { Category } from 'src/blog/category/entities/category.entity';
+import { Tag } from 'src/blog/tag/entities/tag.entity';
 import {
   Column,
   CreateDateColumn,
@@ -16,56 +16,56 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum ArticleState {
   UN_PUBLISHED,
-  PUBLISHED
+  PUBLISHED,
 }
 
 @Entity()
 export class Article {
   @ApiProperty({ name: 'id', description: 'ID', required: true })
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
 
   @ApiProperty({ name: 'text', description: '标题', required: true })
   @Column({ type: 'varchar', length: 255 })
-  title: string
+  title: string;
 
   @ApiProperty({ name: 'poster', description: '封面' })
   @Column({ type: 'varchar', length: 255 })
-  poster: string
+  poster: string;
 
   @ApiProperty({ name: 'description', description: '描述' })
   @Column({ type: 'varchar', length: 1000 })
-  description: string
+  description: string;
 
   @ApiProperty({ name: 'tags', description: '标签' })
   @ManyToMany(() => Tag, t => t.articles)
   @JoinTable()
-  tags: Tag[]
+  tags: Tag[];
 
   @ApiProperty({ name: 'category', description: '分类', required: true })
   @ManyToOne(() => Category, c => c.id)
-  category: Category
+  category: Category;
 
   @ApiProperty({ name: 'content', description: '内容', required: true })
   @Column({ type: 'longtext' })
-  content: string
+  content: string;
 
   @ApiProperty({ name: 'content', description: 'md 文件路径', required: false })
   @Column({ type: 'longtext' })
-  filePath?: string
+  filePath?: string;
 
   @ApiProperty({ name: 'state', description: '状态 [0/1]', required: true })
   @Column({ type: 'int', default: 0 })
-  state: ArticleState // 0 | 1
+  state: ArticleState; // 0 | 1
 
   @CreateDateColumn({ type: 'timestamp' })
-  createAt: Date
+  createAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updateAt: Date
+  updateAt: Date;
 }

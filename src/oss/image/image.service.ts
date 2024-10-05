@@ -5,62 +5,57 @@
  * @FilePath: /nest-portal/src/oss/image/image.service.ts
  * @Description: null
  */
-import { Body, HttpException, HttpStatus, Injectable, UploadedFile } from '@nestjs/common'
-import * as fs from 'fs'
-import * as path from 'path'
-
-const fsp = fs.promises
-
-const dir = path.resolve(__dirname, '../../../src')
-const OSS_DIR = process.env.OSS_DIR || dir
-
-const isImage = (fileName: string) => /\.(jpe?g|png|svg|webp|gif)$/.test(fileName)
-
-async function findImages(base: string, cPath: string) {
-  const docs = []
-  const files = await fsp.readdir(path.resolve(base, cPath))
-  if (!files.length) return []
-  await Promise.all(
-    files.map(async f => {
-      const currentPath = path.resolve(base, cPath, f)
-      const currentKey = `${cPath}/${f}`
-      const stat = await fsp.stat(currentPath)
-      if (!stat.isDirectory() && isImage(currentKey))
-        docs.push({
-          label: f,
-          key: currentKey
-        })
-    })
-  )
-
-  return docs
-}
-
-async function uploadImage(base: string, cPath: string, file: Express.Multer.File) {
-  try {
-    await fsp.access(path.resolve(base, cPath))
-    new HttpException({ message: 'ALREADY EXIST' }, HttpStatus.BAD_REQUEST)
-  } catch (error) {
-    console.log(error)
-    if (error.code === 'ENOENT') {
-      return await fsp.writeFile(path.resolve(base, cPath), file.buffer)
-    }
-  }
-}
+import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
+import * as fs from 'fs';
+import { OssBaseService } from '../oss-base.service';
+import { OSS_CONFIG, OssConfig } from './../oss.const';
+import { UploadImageDto } from './dto/upload-image.dto';
 
 @Injectable()
-export class ImageService {
-  getImages(path: string) {
-    if (!path) return []
-    return findImages(OSS_DIR, path)
+export class ImageService extends OssBaseService {
+  private readonly logger = new Logger(ImageService.name);
+
+  constructor(@Inject(OSS_CONFIG) ossConfig: OssConfig) {
+    super(ossConfig);
   }
-  uploadImage(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() body: { name?: string; path?: string }
-  ) {
-    console.log(file, body)
-    const name = body.name || file.originalname
-    const path = body.path ? `${body.path}/${name}` : name
-    return uploadImage(OSS_DIR, path, file)
+
+  async getImages(path: string) {
+    if (!path) {
+      return [];
+    }
+    try {
+      const fullPath = this.getFullPath(path);
+      const files = await fs.promises.readdir(fullPath);
+      return files
+        .filter(file => this.isImage(file))
+        .map(file => ({
+          label: file,
+          key: `${path}/${file}`,
+        }));
+    } catch (error) {
+      this.logger.error(`Failed to get images from path: ${path}`, error.stack);
+      throw new BadRequestException('Failed to get images');
+    }
+  }
+
+  async uploadImage(file: Express.Multer.File, uploadImageDto: UploadImageDto) {
+    const { name = file.originalname, path = '' } = uploadImageDto;
+    const fullPath = this.getFullPath(`${path}/${name}`);
+
+    try {
+      if (await this.fileExists(fullPath)) {
+        throw new BadRequestException('File already exists');
+      }
+      await fs.promises.writeFile(fullPath, file.buffer);
+      this.logger.log(`Image uploaded successfully: ${fullPath}`);
+      return { message: 'Image uploaded successfully' };
+    } catch (error) {
+      this.logger.error(`Failed to upload image: ${fullPath}`, error.stack);
+      throw new BadRequestException('Failed to upload image');
+    }
+  }
+
+  private isImage(fileName: string): boolean {
+    return /\.(jpe?g|png|svg|webp|gif)$/i.test(fileName);
   }
 }

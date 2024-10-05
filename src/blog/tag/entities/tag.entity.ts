@@ -5,38 +5,38 @@
  * @FilePath: /nest-portal/src/blog/tag/entities/tag.entity.ts
  * @Description:
  */
-import { ApiProperty } from '@nestjs/swagger'
-import { Article } from 'src/blog/article/entities/article.entity'
+import { ApiProperty } from '@nestjs/swagger';
+import { Article } from 'src/blog/article/entities/article.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany
-} from 'typeorm'
+  ManyToMany,
+} from 'typeorm';
 
 @Entity()
 export class Tag {
   @ApiProperty({ name: 'id', description: 'ID', required: true })
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
 
   @ApiProperty({ name: 'text', description: '文本', required: true })
   @Column({ type: 'varchar', length: 255 })
-  text: string
+  text: string;
 
   @ApiProperty({ name: 'color', description: '颜色', required: true })
   @Column({ type: 'char', length: 7 })
-  color: string
+  color: string;
 
   @ApiProperty({ name: 'articles', description: '文章' })
   @ManyToMany(() => Article, (a: Article) => a.tags)
-  articles: Article[]
+  articles: Article[];
 
   @CreateDateColumn({ type: 'timestamp' })
-  createAt: Date
+  createAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updateAt: Date
+  updateAt: Date;
 }

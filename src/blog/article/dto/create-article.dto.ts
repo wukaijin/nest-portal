@@ -5,30 +5,30 @@
  * @FilePath: /nest-portal/src/blog/article/dto/create-article.dto.ts
  * @Description:
  */
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateArticleDto {
   @ApiProperty({ name: 'text', description: '标题', required: true })
-  title: string
+  title: string;
 
   @ApiProperty({ name: 'poster', description: '封面' })
-  poster: string
+  poster: string;
 
   @ApiProperty({ name: 'description', description: '描述' })
-  description: string
+  description: string;
 
   @ApiProperty({ name: 'content', description: '内容', required: false })
-  content: string
+  content: string;
 
   @ApiProperty({ name: 'content', description: 'md 文件路径', required: false })
-  filePath: string
+  filePath: string;
 
   @ApiProperty({ name: 'tags', description: '标签' })
-  tags: string[]
+  tags: string[];
 
   @ApiProperty({ name: 'category', description: '分类', required: true })
-  category: string
+  category: string;
 
   @ApiProperty({ name: 'state', description: '发布状态', required: true })
-  state: number
+  state: number;
 }

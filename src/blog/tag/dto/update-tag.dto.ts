@@ -5,6 +5,6 @@
  * @FilePath: /nest-portal/src/blog/tag/dto/update-tag.dto.ts
  * @Description:
  */
-import { CreateTagDto } from './create-tag.dto'
+import { CreateTagDto } from './create-tag.dto';
 
-export type UpdateTagDto = Partial<CreateTagDto>
+export type UpdateTagDto = Partial<CreateTagDto>;

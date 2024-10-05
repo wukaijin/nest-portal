@@ -5,10 +5,10 @@
  * @FilePath: /nest-portal/src/wrapper/wrapper.interceptor.spec.ts
  * @Description:
  */
-import { WrapperInterceptor } from './wrapper.interceptor'
+import { WrapperInterceptor } from './wrapper.interceptor';
 
 describe('WrapperInterceptor', () => {
   it('should be defined', () => {
-    expect(new WrapperInterceptor()).toBeDefined()
-  })
-})
+    expect(new WrapperInterceptor()).toBeDefined();
+  });
+});

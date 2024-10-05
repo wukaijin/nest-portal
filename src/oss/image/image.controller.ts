@@ -5,11 +5,11 @@
  * @FilePath: /nest-portal/src/oss/image/image.controller.ts
  * @Description: null
  */
-import { Controller, Get, Query, Post, UploadedFile, UseInterceptors, Body } from '@nestjs/common'
-import { Express } from 'express'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { Public } from 'src/auth/jwt-auth.guard'
-import { ImageService } from './image.service'
+import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Public } from 'src/auth/jwt-auth.guard';
+import { UploadImageDto } from './dto/upload-image.dto';
+import { ImageService } from './image.service';
 
 @Controller('oss/image')
 export class ImageController {
@@ -17,16 +17,13 @@ export class ImageController {
 
   @Get('get')
   @Public()
-  getImages(@Query() query: { path: string }) {
-    return this.imageService.getImages(query.path)
+  getImages(@Query('path') path: string) {
+    return this.imageService.getImages(path);
   }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() body: { name?: string; path?: string }
-  ) {
-    return this.imageService.uploadImage(file, body)
+  uploadFile(@UploadedFile() file: Express.Multer.File, @Body() uploadImageDto: UploadImageDto) {
+    return this.imageService.uploadImage(file, uploadImageDto);
   }
 }

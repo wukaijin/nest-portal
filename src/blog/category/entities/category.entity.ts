@@ -5,7 +5,7 @@
  * @FilePath: /nest-portal/src/blog/category/entities/category.entity.ts
  * @Description:
  */
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Entity,
   Column,
@@ -13,40 +13,40 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
-  ManyToOne
-} from 'typeorm'
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class Category {
   @ApiProperty({ name: 'id', description: 'ID', required: true })
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
 
   @ApiProperty({ name: 'text', description: '文本', required: true })
   @Column({ type: 'varchar', length: 255 })
-  text: string
+  text: string;
 
   @ApiProperty({ name: 'order', description: '排序号' })
   @Column({ type: 'int' })
-  order: number
+  order: number;
 
   @ApiProperty({ name: 'defaultPoster', description: '默认封面' })
   @Column({ type: 'varchar', length: 255 })
-  defaultPoster: string
+  defaultPoster: string;
 
   @ApiProperty({ name: 'description', description: '描述' })
   @Column({ type: 'varchar', length: 1000 })
-  description: string
+  description: string;
 
   @ApiProperty({ name: 'belongs', description: '属于' })
   // @Column({ type: 'varchar', length: 255, nullable: true })
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'belongs', referencedColumnName: 'id' })
-  belongs: string
+  belongs: string;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createAt: Date
+  createAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updateAt: Date
+  updateAt: Date;
 }

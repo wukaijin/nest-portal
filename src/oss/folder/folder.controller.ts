@@ -5,9 +5,11 @@
  * @FilePath: /nest-portal/src/oss/folder/folder.controller.ts
  * @Description: null
  */
-import { Controller, Get, Post, Body, Delete, Put } from '@nestjs/common'
-import { Public } from 'src/auth/jwt-auth.guard'
-import { FolderService } from './folder.service'
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Public } from 'src/auth/jwt-auth.guard';
+import { CreateFolderDto } from './dto/create-folder.dto';
+import { RenameFolderDto } from './dto/rename-folder.dto';
+import { FolderService } from './folder.service';
 
 @Controller('oss/folder')
 export class FolderController {
@@ -16,21 +18,21 @@ export class FolderController {
   @Get()
   @Public()
   getDirectory() {
-    return this.folderService.getDirectory()
+    return this.folderService.getDirectory();
   }
 
   @Post()
-  create(@Body('path') path: string) {
-    return this.folderService.addFolder(path)
+  create(@Body() createFolderDto: CreateFolderDto) {
+    return this.folderService.addFolder(createFolderDto.path);
   }
 
   @Put()
-  rename(@Body('path') path: string, @Body('name') name: string) {
-    return this.folderService.renameFolder(path, name)
+  rename(@Body() renameFolderDto: RenameFolderDto) {
+    return this.folderService.renameFolder(renameFolderDto.path, renameFolderDto.name);
   }
 
   @Delete()
   deleteFolder(@Body('path') path: string) {
-    return this.folderService.deleteFolder(path)
+    return this.folderService.deleteFolder(path);
   }
 }

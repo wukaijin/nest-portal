@@ -7,5 +7,5 @@
  */
 export enum Role {
   Admin = 'admin',
-  Anonymous = 'anonymous'
+  Anonymous = 'anonymous',
 }

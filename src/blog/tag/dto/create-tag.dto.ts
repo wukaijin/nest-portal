@@ -5,12 +5,12 @@
  * @FilePath: /nest-portal/src/blog/tag/dto/create-tag.dto.ts
  * @Description:
  */
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTagDto {
   @ApiProperty({ name: 'text', description: '文本', required: true })
-  text: string
+  text: string;
 
   @ApiProperty({ name: 'color', description: '颜色', required: true })
-  color: string
+  color: string;
 }

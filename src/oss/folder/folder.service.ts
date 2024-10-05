@@ -5,86 +5,98 @@
  * @FilePath: /nest-portal/src/oss/folder/folder.service.ts
  * @Description: null
  */
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
+import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
+import { OssBaseService } from '../oss-base.service';
+import { OSS_CONFIG, OssConfig } from '../oss.const';
 
-import * as fs from 'fs'
-import * as path from 'path'
+@Injectable()
+export class FolderService extends OssBaseService {
+  private readonly logger = new Logger(FolderService.name);
 
-const fsp = fs.promises
+  constructor(@Inject(OSS_CONFIG) ossConfig: OssConfig) {
+    super(ossConfig);
+  }
 
-const dir = path.resolve(__dirname, '../../../src')
-const OSS_DIR = process.env.OSS_DIR || dir
+  async getDirectory() {
+    try {
+      return this.generateFolderTree(this.ossConfig.dir, '');
+    } catch (error) {
+      this.logger.error('Failed to get directory structure', error.stack);
+      throw new BadRequestException('Failed to get directory structure');
+    }
+  }
 
-async function generateFolderTree(dir: string, key: string) {
-  const tree = []
-  const files = await fsp.readdir(dir)
-  if (!files.length) return undefined
-  await Promise.all(
-    files.map(async f => {
-      const currentPath = path.resolve(dir, f)
-      const currentKey = key ? `${key}/${f}` : f
-      const stat = await fsp.stat(currentPath)
-      if (stat.isDirectory())
+  async addFolder(path: string) {
+    if (!path) {
+      throw new BadRequestException('Path is required');
+    }
+    const fullPath = this.getFullPath(path);
+    try {
+      await fs.promises.mkdir(fullPath, { recursive: true });
+      this.logger.log(`Folder created successfully: ${fullPath}`);
+      return { message: 'Folder created successfully' };
+    } catch (error) {
+      this.logger.error(`Failed to create folder: ${fullPath}`, error.stack);
+      throw new BadRequestException('Failed to create folder');
+    }
+  }
+
+  async renameFolder(path: string, name: string) {
+    if (!path || !name) {
+      throw new BadRequestException('Path and name are required');
+    }
+    const oldPath = this.getFullPath(path);
+    const newPath = this.getFullPath(path.replace(/[^/]+$/, name));
+    try {
+      await fs.promises.rename(oldPath, newPath);
+      this.logger.log(`Folder renamed successfully: ${oldPath} -> ${newPath}`);
+      return { message: 'Folder renamed successfully' };
+    } catch (error) {
+      this.logger.error(`Failed to rename folder: ${oldPath}`, error.stack);
+      throw new BadRequestException('Failed to rename folder');
+    }
+  }
+
+  async deleteFolder(path: string) {
+    if (!path) {
+      throw new BadRequestException('Path is required');
+    }
+    const fullPath = this.getFullPath(path);
+    try {
+      await fs.promises.rmdir(fullPath);
+      this.logger.log(`Folder deleted successfully: ${fullPath}`);
+      return { message: 'Folder deleted successfully' };
+    } catch (error) {
+      if (error.code === 'ENOTEMPTY') {
+        throw new BadRequestException('Folder is not empty');
+      }
+      this.logger.error(`Failed to delete folder: ${fullPath}`, error.stack);
+      throw new BadRequestException('Failed to delete folder');
+    }
+  }
+
+  private async generateFolderTree(dir: string, key: string) {
+    const tree = [];
+    const files = await fs.promises.readdir(dir);
+    console.log(files);
+    for (const file of files) {
+      const currentPath = path.join(dir, file);
+      const currentKey = key ? `${key}/${file}` : file;
+      const stat = await fs.promises.stat(currentPath);
+      if (stat.isDirectory()) {
+        const children = await this.generateFolderTree(currentPath, currentKey);
+        // if (children && children.length) {
         tree.push({
-          label: f,
+          label: file,
           value: currentKey,
           key: currentKey,
-          children: await generateFolderTree(currentPath, currentKey)
-        })
-    })
-  )
-  if (!tree.length) return undefined
-  return tree
-}
-
-async function addFolder(base: string, cPath: string) {
-  try {
-    await fsp.access(path.resolve(base, cPath))
-    return null
-  } catch (error) {
-    return await fsp.mkdir(path.resolve(base, cPath))
-  }
-}
-
-async function removeFolder(base: string, cPath: string) {
-  try {
-    await fsp.access(path.resolve(base, cPath))
-    await fsp.rmdir(path.resolve(base, cPath))
-  } catch (error) {
-    if (error.code === 'ENOTEMPTY') {
-      throw new HttpException({ message: 'NOT EMPTY' }, HttpStatus.BAD_REQUEST)
+          children,
+        });
+        // }
+      }
     }
-  }
-}
-
-async function renameFolder(base: string, cPath: string, name: string) {
-  try {
-    await fsp.access(path.resolve(base, cPath))
-    await fsp.rename(path.resolve(base, cPath), path.resolve(base, cPath, '..', name))
-  } catch (error) {
-    if (error.code === 'ENOTEMPTY') {
-      throw new HttpException({ message: 'NOT EXIST' }, HttpStatus.BAD_REQUEST)
-    }
-  }
-}
-@Injectable()
-export class FolderService {
-  getDirectory() {
-    return generateFolderTree(OSS_DIR, '')
-  }
-
-  addFolder(path: string) {
-    if (!path) return null
-    return addFolder(OSS_DIR, path)
-  }
-
-  renameFolder(path: string, name: string) {
-    if (!path) return null
-    return renameFolder(OSS_DIR, path, name)
-  }
-
-  deleteFolder(path: string) {
-    if (!path) return null
-    return removeFolder(OSS_DIR, path)
+    return tree.length ? tree : undefined;
   }
 }

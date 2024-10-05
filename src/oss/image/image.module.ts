@@ -5,13 +5,14 @@
  * @FilePath: /nest-portal/src/oss/image/image.module.ts
  * @Description: null
  */
-import { Module } from '@nestjs/common'
-import { ImageService } from './image.service'
-import { ImageController } from './image.controller'
+import { Module } from '@nestjs/common';
+import { ossConstProvider } from '../oss.const';
+import { ImageController } from './image.controller';
+import { ImageService } from './image.service';
 
 @Module({
   imports: [],
   controllers: [ImageController],
-  providers: [ImageService]
+  providers: [ImageService, ossConstProvider],
 })
 export class ImageModule {}

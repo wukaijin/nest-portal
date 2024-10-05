@@ -5,12 +5,12 @@
  * @FilePath: /nest-portal/src/wrapper/wrapper.interceptor.ts
  * @Description:
  */
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common'
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface Data<T> {
-  data: T
+  data: T;
 }
 @Injectable()
 export class WrapperInterceptor<T = any> implements NestInterceptor {
@@ -20,9 +20,9 @@ export class WrapperInterceptor<T = any> implements NestInterceptor {
         data,
         code: 200,
         success: true,
-        message: 'success'
+        message: 'success',
       }))
-    )
-    return response
+    );
+    return response;
   }
 }

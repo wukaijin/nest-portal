@@ -5,18 +5,18 @@
  * @FilePath: /nest-portal/src/typeorm/typeorm.module.ts
  * @Description:
  */
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm';
 // import path from 'path'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const entitiesPath = require('path').join(__dirname, '..', '/**/*.entity.{ts,.js}')
-console.log('path:', entitiesPath)
+const entitiesPath = require('path').join(__dirname, '..', '/**/*.entity.{ts,.js}');
+console.log('path:', entitiesPath);
 
 export default TypeOrmModule.forRoot({
   type: 'mysql',
   username: process.env.DB_USERNAME || 'root',
-  password: process.env.DB_PASSWORD || 'itsUnknown',
+  password: process.env.DB_PASSWORD || '123456',
   host: 'localhost',
-  // host: '106.55.147.116',
+  // host: '124.221.48.165',
   port: 3306,
   database: 'portal',
   // entities: [entitiesPath],
@@ -25,5 +25,5 @@ export default TypeOrmModule.forRoot({
   retryDelay: 500,
   retryAttempts: 10,
   // keepConnectionAlive: false,
-  autoLoadEntities: true // 由 forFeature 注册，自动加载实体
-})
+  autoLoadEntities: true, // 由 forFeature 注册，自动加载实体
+});
