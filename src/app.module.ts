@@ -20,6 +20,7 @@ import { OssModule } from './oss/oss.module';
 import { RolesGuard } from './role/role.guard';
 import DatabaseModule from './typeorm/typeorm.module';
 import { UserModule } from './user/user.module';
+import { ForwardModule } from './forward/forward.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { UserModule } from './user/user.module';
     ImageModule,
     FolderModule,
     OssModule,
+    ForwardModule,
   ],
   controllers: [AppController],
   providers: [
